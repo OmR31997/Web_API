@@ -1,0 +1,9 @@
+﻿# Ignore .env file containing environment variables
+.env
+
+# Ignore Firebase credentials folder
+FirebaseKey/
+
+# Ignore build directories
+bin/
+obj/
