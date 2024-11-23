@@ -1,9 +1,15 @@
-﻿# Ignore .env file containing environment variables
+﻿# Ignore .env file (local environment variables)
 .env
 
-# Ignore Firebase credentials folder
+# Ignore Firebase key file
 FirebaseKey/
 
-# Ignore build directories
+# Ignore build artifacts
 bin/
 obj/
+
+# Ignore Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates

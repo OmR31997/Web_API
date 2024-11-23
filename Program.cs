@@ -2,6 +2,8 @@ using DotNetEnv;
 using EntertaimentLib_API.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json;
+
 
 namespace EntertaimentLib_API
 {
@@ -15,28 +17,46 @@ namespace EntertaimentLib_API
             DotNetEnv.Env.Load(); // This loads the .env file
 
             // Retrieve Firebase credentials path from environment variable
-            string? firebaseKeyEnv = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIAL_PATH");
+            // Get the file path to Firebase credentials
+            string? firebaseKeyPath = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIAL_PATH");
 
-            Console.WriteLine($"Checking if file exists at: {firebaseKeyEnv}");
-            
-            if (string.IsNullOrEmpty(firebaseKeyEnv))
+            if (string.IsNullOrEmpty(firebaseKeyPath))
             {
                 Console.WriteLine("Environment variable 'FIREBASE_CREDENTIAL_PATH' is not set or is empty.");
             }
             else
             {
-                Console.WriteLine($"Environment variable path: {firebaseKeyEnv}");
-                if (File.Exists(firebaseKeyEnv))
+                Console.WriteLine($"Firebase credential file path: {firebaseKeyPath}");
+
+                try
                 {
-                    Console.WriteLine("File exists.");
+                    // Read the JSON content from the file
+                    string json = File.ReadAllText(firebaseKeyPath);
+
+                    // Initialize Firebase
+                    FirebaseApp.Create(new AppOptions
+                    {
+                        Credential = GoogleCredential.FromJson(json)
+                    });
+
+                    Console.WriteLine("Firebase initialized successfully.");
                 }
-                else
+                catch (FileNotFoundException ex)
                 {
-                    Console.WriteLine("File does not exist or cannot be accessed. Verifying full path...");
-                    Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
-                    Console.WriteLine($"Absolute path: {Path.GetFullPath(firebaseKeyEnv)}");
+                    Console.WriteLine($"File not found: {ex.Message}");
+                }
+                catch (JsonReaderException ex)
+                {
+                    Console.WriteLine($"JSON Parsing Error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unexpected error: {ex.Message}");
                 }
             }
+
+
+
 
 
 
