@@ -62,6 +62,7 @@ namespace EntertaimentLib_API
                 }
             }
 
+
             /* ***START CORS Configuration Block */
             builder.Services.AddCors(options =>
             {
@@ -86,6 +87,12 @@ namespace EntertaimentLib_API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+            app.Urls.Add($"http://*:{port}");
+            // Map a default route for testing
+            app.MapGet("/", () => "API is running!");
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
