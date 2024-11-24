@@ -14,11 +14,18 @@ namespace EntertaimentLib_API
             var builder = WebApplication.CreateBuilder(args);
 
             // Load environment variables from .env file (for local development)
-            DotNetEnv.Env.Load(); // This loads the .env file
+            // Load environment variables from .env for local development
+            if (builder.Environment.IsDevelopment())
+            {
+                DotNetEnv.Env.Load(); // Loads the .env file
+            }
+
+
 
             // Retrieve Firebase credentials path from environment variable
             // Get the file path to Firebase credentials
-            string? firebaseKeyPath = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIAL_PATH");
+            // Retrieve Firebase credentials path from environment variable
+            string? firebaseKeyPath = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIAL_PATH") ?? "/etc/secrets/firebase-key.json";
 
             if (string.IsNullOrEmpty(firebaseKeyPath))
             {
