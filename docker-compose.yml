@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  entertaimentlib_api:
+    image: ${DOCKER_REGISTRY-}entertaimentlibapi
+    build:
+      context: ./EntertaimentLib_API
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - FIREBASE_CREDENTIALS_PATH=/run/secrets/firebase-key  # Docker secret path
+    secrets:
+      - firebase-key
+
+secrets:
+  firebase-key:
+    external: true
