@@ -62,12 +62,6 @@ namespace EntertaimentLib_API
                 }
             }
 
-
-
-
-
-
-
             /* ***START CORS Configuration Block */
             builder.Services.AddCors(options =>
             {
@@ -100,6 +94,7 @@ namespace EntertaimentLib_API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AppSpecificOrigin");
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
