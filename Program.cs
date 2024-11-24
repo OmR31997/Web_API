@@ -73,7 +73,7 @@ namespace EntertaimentLib_API
             {
                 options.AddPolicy("AppSpecificOrigin", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("http://localhost:4200")
+                    policyBuilder.WithOrigins("http://localhost:4200", "https://web-api-qb1w.onrender.com")
                                  .AllowAnyHeader()
                                  .AllowAnyMethod();
                 });
