@@ -97,10 +97,12 @@ namespace EntertaimentLib_API
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
             app.UseCors("AppSpecificOrigin");
             app.UseHttpsRedirection();
             app.UseAuthorization();
