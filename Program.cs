@@ -20,12 +20,11 @@ namespace EntertaimentLib_API
                 DotNetEnv.Env.Load(); // Loads the .env file
             }
 
-
-
-            // Retrieve Firebase credentials path from environment variable
-            // Get the file path to Firebase credentials
-            // Retrieve Firebase credentials path from environment variable
-            string? firebaseKeyPath = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIAL_PATH") ?? "/etc/secrets/firebase-key.json";
+            // Set up logging
+            var logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<Program>();
+             
+            // Firebase credential initialization
+            string? firebaseKeyPath = builder.Configuration["FIREBASE_CREDENTIAL_PATH"] ?? "/etc/secrets/firebase-key.json";
 
             if (string.IsNullOrEmpty(firebaseKeyPath))
             {
@@ -88,26 +87,18 @@ namespace EntertaimentLib_API
 
             var app = builder.Build();
 
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-            app.Urls.Add($"http://*:{port}");
-            // Map a default route for testing
-            app.MapGet("/", () => "API is running!");
-
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseRouting();
             app.UseCors("AppSpecificOrigin");
             app.UseHttpsRedirection();
             app.UseAuthorization();
+
+            app.MapGet("/", () => Results.Redirect("/swagger"));
             app.MapControllers();
 
+            app.Run();
             app.Run();
         }
     }
