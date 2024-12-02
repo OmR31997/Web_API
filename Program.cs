@@ -67,7 +67,7 @@ namespace EntertaimentLib_API
             {
                 options.AddPolicy("AppSpecificOrigin", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("https://omr31997.github.io/My-Projects", "https://web-api-32df.onrender.com")
+                    policyBuilder.WithOrigins("https://omr31997.github.io", "https://web-api-32df.onrender.com")
                                  .AllowAnyHeader()
                                  .AllowAnyMethod();
                 });
