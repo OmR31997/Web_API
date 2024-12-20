@@ -99,7 +99,6 @@ namespace EntertaimentLib_API
             app.MapControllers();
 
             app.Run();
-            app.Run();
         }
     }
 }
