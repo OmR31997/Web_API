@@ -83,16 +83,22 @@ namespace EntertaimentLib_API
 
             // Configure Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseRouting();
             app.UseCors("AppSpecificOrigin");
             app.UseHttpsRedirection();
             app.UseAuthorization();
+
+            app.MapGet("/", () => Results.Redirect("/swagger"));
             app.MapControllers();
 
-            app.Run();
+            app.Run();        
         }
     }
 }
